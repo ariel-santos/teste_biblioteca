@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+        <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+        
+        <script>
+            jQuery('document').ready(function(){
+                jQuery('.container-01').hide();
+            });
+        </script>
+        <style>
+            *{ font-family: 'Quicksand', sans-serif;}
+            .container-dados{ float: left;}
+            .container-dados ul{ list-style: none; float: left; margin: 0; padding: 0;}
+            .container-dados ul li{width:30%; float: left; padding: 10px;}
+            .container-dados ul li span{width:100px; float: left;}
+            
+            .container-img{
+                float: left;
+                background-image: url('../media/cartao_visita.jpg'); 
+                background-repeat: no-repeat;
+                width: 626px; height: 626px;
+            }
+            
+            .container-img p#empresa{    
+                margin-top: 30%;
+                margin-bottom: 5px;
+                text-align: center;
+                text-transform: uppercase;
+            }
+            .container-img p#site{    
+                margin: 0;
+                text-align: center;
+            }
+            .container-img p#nome{    
+                margin-top: 29%;
+                margin-left:150px;
+                margin-bottom: 0;
+                text-transform: uppercase;
+                font-size: 18pt;
+                font-weight: 600;
+                color: #37c879;
+            }
+            .container-img p#cargo{ margin:0 0 5px 250px; }
+            
+            .container-img p#telefone,
+            .container-img p#empresa2,
+            .container-img p#email{
+                margin:0 0 0 200px;
+                font-size: 10pt;
+                padding: 3px;
+            }
+        </style>
+    </head>
+    
+    <!--   
+        é necessario que attr ng-app esteja declarado, de preferencia em todo o documento
+        
+        ng-model -> entrada de dados
+        ng-bind -> saida de dados ( pode usar mais de um  )
+        
+        ng-init -> inicializa variaveis 
+            ng-init=" nome_variavel='valor_variavel' "
+            
+        data-ng-* -> use data para tornar seu HTML valido
+    -->
+    <body ng-app="angular01" ng-init="site='www.' " >
+        <div class="container-01">
+            <div class="container-dados">
+                <ul>
+                <li><span>Empresa:</span> <input type="text" ng-model="empresa"></li>
+                <li><span>Site:</span> <input type="text" ng-model="site"></li>
+                <li><span>Nome:</span> <input type="text" ng-model="nome"></li>
+                <li><span>Cargo:</span> <input type="text" ng-model="cargo"></li>
+                <li><span>Telefone:</span> <input type="text" ng-model="telefone"></li>
+                <li><span>Email:</span> <input type="text" ng-model="email"></li>
+                </ul>
+            </div>
+            <div class="container-img">
+                <p id="empresa" ng-bind="empresa"></p> 
+                <p id="site" ng-bind="site"></p> 
+                <p id="nome" ng-bind="nome"></p> 
+                <p id="cargo" ng-bind="cargo"></p> 
+                <p id="telefone" ng-bind="telefone"></p> 
+                <p id="email" ng-bind="email"></p> 
+                <p id="empresa2" ng-bind="empresa"></p> 
+            </div>
+        </div>
+        <div class="container-02" ng-controller="myCtrl">
+            <p>Calculando em Angular: {{ 5 + 5 }}</p>
+            
+            <p>Text 01: <input type="text" ng-model="text01"></p>
+            <p>Text 02: <input type="text" ng-model="text02"></p>
+            <!--     Funciona igual ng-bind       -->
+<!--
+            <p>{{text02}}</p>
+            <p>{{text01}}</p>
+-->
+            
+            <p> Text01 + Text02: {{ firstName + " " + lastName }}</p>
+            <!--  Setando valor em firstName e lastName         -->
+            <script>
+                var app = angular.module('angular01', []);      // angular01 -> nome do app
+                app.controller('myCtrl', function($scope) {     // myCtrl -> nome do controller   
+                    $scope.firstName= "John";                   // Valores
+                    $scope.lastName= "Doe";
+                });
+            </script>
+            
+            <!--     Defininco cor do input em tempo de execucao       -->
+            <p>Digite o nome de uma cor: <input style="background-color:{{myCol}}" ng-model="myCol"></p>
+            
+            <!--      Multiplicacao   + text01 ele ira concatenar  -->
+            <div ng-init="quantity=2;cost=7.3">
+                <p>Multiplicacao {{ quantity * cost }}</p>
+                <p>Multiplicacao + bind <span ng-bind="quantity * cost"></span></p>
+            </div>
+            
+            <!--      Objeto      -->
+            <script>
+                function pessoa(nome, idade){
+                    this.nome = nome;
+                    this.idade = idade;
+                }                
+                
+                 pessoa1 = new pessoa('joao', 15);
+                 pessoa2 = new pessoa('maria', 30);
+                
+                app.controller('objCtrl', function($scope) {     
+                    $scope.objNome = pessoa2.nome;
+                    $scope.objIdade = pessoa2.idade;
+                });
+            </script>
+            <div ng-controller="objCtrl">
+                <p>Nome {{ objNome + " " + objIdade }}</p>
+            </div>
+        </div>    
+    </body>
+</html>
